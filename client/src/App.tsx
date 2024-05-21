@@ -1,5 +1,10 @@
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router/router';
+
 export const App = () => {
-  return <h1 className="text-3xl text-red-500">App</h1>;
+  return (
+    <div className="App">
+      <RouterProvider router={router} />
+    </div>
+  );
 };
-
-
