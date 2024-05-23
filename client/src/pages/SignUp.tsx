@@ -27,11 +27,15 @@ export const SignUp: React.FC = () => {
             </div>
             <div>
               <Label value="Your email" />
-              <TextInput type="text" placeholder="name@company.com" id="email" />
+              <TextInput
+                type="email"
+                placeholder="name@company.com"
+                id="email"
+              />
             </div>
             <div>
               <Label value="Your password" />
-              <TextInput type="text" placeholder="Password" id="password" />
+              <TextInput type="password" placeholder="Password" id="password" />
             </div>
             <Button gradientDuoTone="purpleToPink" type="submit">
               Sign Up
