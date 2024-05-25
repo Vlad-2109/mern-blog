@@ -10,3 +10,12 @@ export interface ISignUpData {
   password: string;
 }
 
+export interface SignInForm {
+  email: string;
+  password: string;
+}
+
+export interface ISignInData {
+  email: string;
+  password: string;
+}
