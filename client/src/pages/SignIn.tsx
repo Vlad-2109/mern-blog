@@ -3,14 +3,22 @@ import { Label, TextInput, Button, Alert, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import { SignInForm } from '../types/types';
 import { AuthService } from '../services/auth.service';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from '../redux/user/userSlice';
 
 export const SignIn: React.FC = () => {
   const [formData, setFormData] = useState<SignInForm>({
     email: '',
     password: '',
   });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loading, error: errorMessage } = useAppSelector(
+    (state) => state.user
+  );
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,21 +28,20 @@ export const SignIn: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields.');
+      return dispatch(signInFailure('Please fill out all fields.'));
     }
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
       const data = await AuthService.signIn(formData);
-      setLoading(false);
-      if (data) navigate('/');
+      if (data) {
+        dispatch(signInSuccess(data));
+        navigate('/');
+      }
     } catch (error: any) {
       if (error.response.data.success === false) {
-        setLoading(false);
-        return setErrorMessage(error.response.data.message);
+        dispatch(signInFailure(error.response.data.message));
       } else {
-        setErrorMessage(error.message);
-        setLoading(false);
+        dispatch(signInFailure(error.response));
       }
     }
   };
