@@ -19,3 +19,9 @@ export interface ISignInData {
   email: string;
   password: string;
 }
+
+export interface IGoogleData {
+  name: string | null;
+  email: string | null;
+  googlePhotoUrl: string | null;
+}

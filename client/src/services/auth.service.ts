@@ -1,5 +1,5 @@
 import { instance } from '../api/axios.api';
-import { ISignInData, ISignUpData } from '../types/types';
+import { IGoogleData, ISignInData, ISignUpData } from '../types/types';
 
 export const AuthService = {
   async signUp(userData: ISignUpData): Promise<string> {
@@ -13,6 +13,15 @@ export const AuthService = {
 
   async signIn(userData: ISignInData): Promise<string> {
     const { data } = await instance.post<string>('api/auth/signin', userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return data;
+  },
+
+  async google(userData: IGoogleData): Promise<string> {
+    const { data } = await instance.post<string>('api/auth/google', userData, {
       headers: {
         'Content-Type': 'application/json',
       },
