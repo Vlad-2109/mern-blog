@@ -13,3 +13,7 @@ export interface UserState {
   error: null | string;
   loading: boolean;
 }
+
+export interface ThemeState {
+  theme: 'light' | 'dark';
+}

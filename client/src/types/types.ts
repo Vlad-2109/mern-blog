@@ -25,3 +25,7 @@ export interface IGoogleData {
   email: string | null;
   googlePhotoUrl: string | null;
 }
+
+export interface ThemeProviderProps {
+  children: React.ReactNode;
+}
