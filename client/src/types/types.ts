@@ -29,3 +29,7 @@ export interface IGoogleData {
 export interface ThemeProviderProps {
   children: React.ReactNode;
 }
+
+export interface PrivateRouteProps {
+  children: React.ReactNode;
+}
