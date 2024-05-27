@@ -5,6 +5,7 @@ import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import userRoutes from './routes/user.route';
 import authRoutes from './routes/auth.route';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ mongoose
   .catch((err) => console.log('DB error', err));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 app.use('/api/user', userRoutes);
