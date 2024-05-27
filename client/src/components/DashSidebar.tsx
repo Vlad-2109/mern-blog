@@ -21,6 +21,7 @@ export const DashSidebar: React.FC = () => {
               icon={HiUser}
               label={'User'}
               labelColor="dark"
+              as='div'
             >
               Profile
             </Sidebar.Item>
