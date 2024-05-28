@@ -20,6 +20,29 @@ export interface ISignInData {
   password: string;
 }
 
+export interface UpdateForm {
+  username: string;
+  email: string;
+  password: string;
+  profilePicture: string;
+}
+
+export interface IUpdateUser {
+  username: string;
+  email: string;
+  password: string;
+  profilePicture: string;
+}
+
+export interface IUpdateUserResponse {
+  _id: string;
+  username: string;
+  email: string;
+  profilePicture: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
 export interface IGoogleData {
   name: string | null;
   email: string | null;
