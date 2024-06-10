@@ -22,4 +22,9 @@ export const UserService = {
     const { data } = await instance.delete<string>(`api/user/delete/${currentUserId}`,);
     return data;
   },
+
+  async signout(): Promise<string> {
+    const { data } = await instance.post<string>(`api/user/signout`,);
+    return data;
+  },
 };
