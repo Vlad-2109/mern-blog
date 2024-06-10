@@ -17,4 +17,9 @@ export const UserService = {
     );
     return data;
   },
+
+  async deleteUser(currentUserId: string): Promise<string> {
+    const { data } = await instance.delete<string>(`api/user/delete/${currentUserId}`,);
+    return data;
+  },
 };
