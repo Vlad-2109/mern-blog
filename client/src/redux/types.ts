@@ -3,6 +3,7 @@ export interface User {
   username: string;
   email: string;
   profilePicture: string;
+  isAdmin?: boolean;
   createdAt: Date;
   updatedAt: Date;
   __v: number;

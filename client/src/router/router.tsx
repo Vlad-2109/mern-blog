@@ -7,6 +7,8 @@ import { Dashboard } from '../pages/Dashboard';
 import { Projects } from '../pages/Projects';
 import { Layout } from '../components/Layout';
 import { PrivateRoute } from '../components/PrivateRoute';
+import { OnlyAdminPrivateRoute } from '../components/OnlyAdminPrivateRoute';
+import { CreatePost } from '../pages/CreatePost';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
+        ),
+      },
+      {
+        path: 'create-post',
+        element: (
+          <OnlyAdminPrivateRoute>
+            <CreatePost />
+          </OnlyAdminPrivateRoute>
         ),
       },
       { path: 'projects', element: <Projects /> },

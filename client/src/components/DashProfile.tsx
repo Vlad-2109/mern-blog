@@ -22,10 +22,11 @@ import {
 } from '../redux/user/userSlice';
 import { UserService } from '../services/user.service';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 export const DashProfile: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { currentUser, error } = useAppSelector((state) => state.user);
+  const { currentUser, error, loading } = useAppSelector((state) => state.user);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageFileUrl, setImageFileUrl] = useState<string | null>(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState<
@@ -232,9 +233,17 @@ export const DashProfile: React.FC = () => {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Update
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>
+          {loading ? 'Loading...' : 'Update'}
         </Button>
+        {currentUser?.isAdmin && (
+          <Link to='/create-post'> 
+            <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>
+            Create a post
+            </Button>
+          </Link>
+          )
+        }
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={()=>setShowModal(true)} className="cursor-pointer">Delete Account</span>
