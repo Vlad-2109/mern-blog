@@ -52,7 +52,7 @@ export const signin = async (
     if (!validPassword) {
       return next(errorHandler(400, 'Invalid password'));
     }
-    const token = jwt.sign({ id: validUser._id }, jwt_secret);
+    const token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin }, jwt_secret);
 
     const { password: pass, ...rest } = validUser.toObject();
     res
@@ -94,7 +94,7 @@ export const google = async (
         profilePicture: googlePhotoUrl,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, jwt_secret);
+      const token = jwt.sign({ id: newUser._id, isAdmin: newUser.isAdmin }, jwt_secret);
       const { password, ...rest } = newUser.toObject();
       res
         .status(200)
