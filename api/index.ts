@@ -5,6 +5,7 @@ import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import userRoutes from './routes/user.route';
 import authRoutes from './routes/auth.route';
+import postRoutes from './routes/post.route';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/post', postRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
