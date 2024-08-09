@@ -9,6 +9,7 @@ import { Layout } from '../components/Layout';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { OnlyAdminPrivateRoute } from '../components/OnlyAdminPrivateRoute';
 import { CreatePost } from '../pages/CreatePost';
+import { PostPage } from '../pages/PostPage';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: 'projects', element: <Projects /> },
+      { path: 'post/:postSlug', element: <PostPage />}
     ],
   },
 ]);

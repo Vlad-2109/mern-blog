@@ -56,3 +56,30 @@ export interface ThemeProviderProps {
 export interface PrivateRouteProps {
   children: React.ReactNode;
 }
+
+export interface FormDataState {
+  image: string;
+  title: string;
+  category: string;
+  content: string;
+}
+
+export interface ICreatePost {
+  image: string;
+  title: string;
+  category: string;
+  content: string;
+}
+
+export interface ICreatePostResponse {
+  userId: string;
+  content: string;
+  title: string;
+  image: string;
+  category: string;
+  slug: string;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
