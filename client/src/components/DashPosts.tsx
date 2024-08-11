@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export const DashPosts: React.FC = () => {
   const { currentUser } = useAppSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState<IGetPost[] | []>([]);
-  console.log(userPosts);
+  const [showMore, setShowMore] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -16,6 +16,9 @@ export const DashPosts: React.FC = () => {
         const data = await PostService.getPosts(currentUser?._id);
         if (data) {
           setUserPosts(data.posts);
+          if (data.posts.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error: any) {
         console.log(error.message);
@@ -24,8 +27,24 @@ export const DashPosts: React.FC = () => {
 
     fetchPosts();
   }, [currentUser?._id]);
+
+  const handleShowMore = async() => {
+    const startIndex = userPosts.length;
+    try {
+      const data = await PostService.getPostsWithStartIndex(currentUser?._id, startIndex);
+      if (data) {
+        setUserPosts((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+
   return (
-    <div className='table-auto overflow-x-scroll 
+    <div className='table-auto overflow-x-scroll w-full
     md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {currentUser?.isAdmin && userPosts.length > 0 ? (
         <>
@@ -71,6 +90,13 @@ export const DashPosts: React.FC = () => {
               </Table.Body>
             ))}
           </Table>
+          {
+            showMore && (
+              <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7'>
+                Show more
+              </button>
+            )
+          }
         </>
       ) : (
         <p>You have no posts yet!</p>

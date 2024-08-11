@@ -19,4 +19,9 @@ export const PostService = {
     const { data } = await instance.get<IGetPosts>(`api/post/get-posts?userId=${currentUserId}`);
     return data;
   },
+
+  async getPostsWithStartIndex(currentUserId: string | undefined, startIndex: number): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?userId=${currentUserId}&startIndex=${startIndex}`);
+    return data;
+  },
 };
