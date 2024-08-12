@@ -84,6 +84,26 @@ export interface ICreatePostResponse {
   __v: number;
 }
 
+export interface IUpdatePost {
+  image: string;
+  title: string;
+  category: string;
+  content: string;
+}
+
+export interface IUpdatePostResponse {
+  userId: string;
+  content: string;
+  title: string;
+  image: string;
+  category: string;
+  slug: string;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
 export interface IGetPost {
   userId: string;
   content: string;

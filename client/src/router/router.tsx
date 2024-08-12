@@ -10,6 +10,7 @@ import { PrivateRoute } from '../components/PrivateRoute';
 import { OnlyAdminPrivateRoute } from '../components/OnlyAdminPrivateRoute';
 import { CreatePost } from '../pages/CreatePost';
 import { PostPage } from '../pages/PostPage';
+import { UpdatePost } from '../pages/UpdatePost';
 
 export const router = createBrowserRouter([
   {
@@ -36,8 +37,16 @@ export const router = createBrowserRouter([
           </OnlyAdminPrivateRoute>
         ),
       },
+      {
+        path: 'update-post/:postId',
+        element: (
+          <OnlyAdminPrivateRoute>
+            <UpdatePost />
+          </OnlyAdminPrivateRoute>
+        ),
+      },
       { path: 'projects', element: <Projects /> },
-      { path: 'post/:postSlug', element: <PostPage />}
+      { path: 'post/:postSlug', element: <PostPage /> },
     ],
   },
 ]);

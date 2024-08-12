@@ -1,5 +1,5 @@
 import { instance } from '../api/axios.api';
-import { ICreatePost, ICreatePostResponse, IGetPosts } from '../types/types';
+import { ICreatePost, ICreatePostResponse, IGetPosts, IUpdatePost, IUpdatePostResponse } from '../types/types';
 
 export const PostService = {
   async createPost(postData: ICreatePost): Promise<ICreatePostResponse | null> {
@@ -25,8 +25,27 @@ export const PostService = {
     return data;
   },
 
-    async deletePostById(postIdToDelete: string, currentUserId: string | undefined): Promise<string> {
+  async getPostById(postId: string | undefined): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?postId=${postId}`);
+    return data;
+  },
+
+  async deletePostById(postIdToDelete: string, currentUserId: string | undefined): Promise<string> {
     const { data } = await instance.delete<string>(`api/post/delete-post/${postIdToDelete}/${currentUserId}`);
     return data;
   },
+
+  async updatePostById(postId: string | undefined, currentUserId: string | undefined, postData: IUpdatePost ): Promise<IUpdatePostResponse | null> {
+    const { data } = await instance.put<IUpdatePostResponse | null>(
+      `api/post/update-post/${postId}/${currentUserId}`,
+      postData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  },
+
 };
