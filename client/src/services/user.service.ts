@@ -38,4 +38,9 @@ export const UserService = {
     const { data } = await instance.get<IGetUsers>(`api/user/get-users?startIndex=${startIndex}`);
     return data;
   },
+
+  async deleteUserById(userIdToDelete: string): Promise<string> {
+    const { data } = await instance.delete<string>(`api/user/delete/${userIdToDelete}`);
+    return data;
+  },
 };

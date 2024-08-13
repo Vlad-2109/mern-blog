@@ -46,23 +46,19 @@ export const DashUsers: React.FC = () => {
     }
   };
 
-    const handleDeleteUser = () => {}
-//   const handleDeleteUser = async () => {
-//     setShowModal(false);
-//     try {
-//       const data = await UserService.deleteUserById(
-//         postIdToDelete,
-//         currentUser?._id
-//       );
-//       if (data) {
-//         setUserPosts((prev) =>
-//           prev.filter((post) => post._id !== postIdToDelete)
-//         );
-//       }
-//     } catch (error: any) {
-//       console.log(error.message);
-//     }
-//   };
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      const data = await UserService.deleteUserById(userIdToDelete);
+      if (data) {
+        setUsers((prev) =>
+          prev.filter((post) => post._id !== userIdToDelete)
+        );
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div
