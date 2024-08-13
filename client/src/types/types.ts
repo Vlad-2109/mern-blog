@@ -122,3 +122,20 @@ export interface IGetPosts {
   totalPosts: number;
   lastMonthPosts: number;
 }
+
+export interface IGetUser {
+  _id: string;
+  username: string;
+  email: string;
+  profilePicture: string;
+  isAdmin?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface IGetUsers {
+  users: IGetUser[];
+  totalUsers: number;
+  lastMonthUsers: number;
+}

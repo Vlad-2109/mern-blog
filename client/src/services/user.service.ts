@@ -1,5 +1,6 @@
 import { instance } from '../api/axios.api';
-import { IUpdateUser, IUpdateUserResponse } from '../types/types';
+import { User } from '../redux/types';
+import { IGetUsers, IUpdateUser, IUpdateUserResponse } from '../types/types';
 
 export const UserService = {
   async updateUser(
@@ -25,6 +26,16 @@ export const UserService = {
 
   async signout(): Promise<string> {
     const { data } = await instance.post<string>(`api/user/signout`,);
+    return data;
+  },
+
+  async getUsers(): Promise<IGetUsers> {
+    const { data } = await instance.get<IGetUsers>(`api/user/get-users`);
+    return data;
+  },
+
+  async getUsersWithStartIndex(startIndex: number): Promise<IGetUsers> {
+    const { data } = await instance.get<IGetUsers>(`api/user/get-users?startIndex=${startIndex}`);
     return data;
   },
 };

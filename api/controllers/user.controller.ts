@@ -103,7 +103,7 @@ export const getUsers = async (
   }
   try {
     const startIndex: number = parseInt(req.query.startIndex) || 0;
-    const limit: number = parseInt(req.query.limit) || 9;
+    const limit: number = parseInt(req.query.limit) || 5;
     const sortDirection: SortOrder = req.query.sort === 'asc' ? 1 : -1;
 
     const users = await User.find().sort({ createdAt: sortDirection }).skip(startIndex).limit(limit);
