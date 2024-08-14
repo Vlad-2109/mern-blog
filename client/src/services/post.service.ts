@@ -25,6 +25,11 @@ export const PostService = {
     return data;
   },
 
+   async getPostBySlug(postSlug: string | undefined): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?slug=${postSlug}`);
+    return data;
+  },
+
   async getPostById(postId: string | undefined): Promise<IGetPosts> {
     const { data } = await instance.get<IGetPosts>(`api/post/get-posts?postId=${postId}`);
     return data;

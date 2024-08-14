@@ -117,6 +117,19 @@ export interface IGetPost {
   __v: number;
 }
 
+export interface Post {
+  userId: string;
+  content: string;
+  title: string;
+  image: string;
+  category: string;
+  slug: string;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
 export interface IGetPosts {
   posts: IGetPost[];
   totalPosts: number;
