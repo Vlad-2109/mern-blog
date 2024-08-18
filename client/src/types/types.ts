@@ -57,6 +57,10 @@ export interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
+export interface CommentSectionProps {
+  postId?: string
+}
+
 export interface FormDataState {
   image: string;
   title: string;
@@ -151,4 +155,22 @@ export interface IGetUsers {
   users: IGetUser[];
   totalUsers: number;
   lastMonthUsers: number;
+}
+
+export interface ICreateComment {
+  content: string;
+  postId: string | undefined;
+  userId: string | undefined;
+}
+
+export interface ICreateCommentResponse {
+  content: string;
+  postId: string;
+  userId: string;
+  likes: [] | number[];
+  numberOfLikes: number;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
 }
