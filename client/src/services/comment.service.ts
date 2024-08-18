@@ -1,5 +1,5 @@
 import { instance } from '../api/axios.api';
-import { ICreateComment, ICreateCommentResponse } from '../types/types';
+import { ICreateComment, ICreateCommentResponse, IGetComment } from '../types/types';
 
 export const CommentService = {
   async createComment(commentData: ICreateComment): Promise<ICreateCommentResponse> {
@@ -8,6 +8,11 @@ export const CommentService = {
         'Content-Type': 'application/json',
       },
     });
+    return data;
+  },
+
+  async getPostComments(postId: string | undefined): Promise<IGetComment[]> {
+    const { data } = await instance.get<IGetComment[]>(`api/comment/get-post-comments/${postId}`);
     return data;
   },
 };

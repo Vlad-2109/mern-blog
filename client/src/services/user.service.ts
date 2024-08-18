@@ -1,6 +1,5 @@
 import { instance } from '../api/axios.api';
-import { User } from '../redux/types';
-import { IGetUsers, IUpdateUser, IUpdateUserResponse } from '../types/types';
+import { IGetUser, IGetUsers, IUpdateUser, IUpdateUserResponse } from '../types/types';
 
 export const UserService = {
   async updateUser(
@@ -20,12 +19,19 @@ export const UserService = {
   },
 
   async deleteUser(currentUserId: string): Promise<string> {
-    const { data } = await instance.delete<string>(`api/user/delete/${currentUserId}`,);
+    const { data } = await instance.delete<string>(
+      `api/user/delete/${currentUserId}`
+    );
     return data;
   },
 
   async signout(): Promise<string> {
-    const { data } = await instance.post<string>(`api/user/signout`,);
+    const { data } = await instance.post<string>(`api/user/signout`);
+    return data;
+  },
+
+  async getUser(userId: string): Promise<IGetUser> {
+    const { data } = await instance.get<IGetUser>(`api/user/${userId}`);
     return data;
   },
 
@@ -35,12 +41,16 @@ export const UserService = {
   },
 
   async getUsersWithStartIndex(startIndex: number): Promise<IGetUsers> {
-    const { data } = await instance.get<IGetUsers>(`api/user/get-users?startIndex=${startIndex}`);
+    const { data } = await instance.get<IGetUsers>(
+      `api/user/get-users?startIndex=${startIndex}`
+    );
     return data;
   },
 
   async deleteUserById(userIdToDelete: string): Promise<string> {
-    const { data } = await instance.delete<string>(`api/user/delete/${userIdToDelete}`);
+    const { data } = await instance.delete<string>(
+      `api/user/delete/${userIdToDelete}`
+    );
     return data;
   },
 };

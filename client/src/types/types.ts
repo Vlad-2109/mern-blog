@@ -61,6 +61,10 @@ export interface CommentSectionProps {
   postId?: string
 }
 
+export interface CommentProps {
+  comment: IGetComment
+}
+
 export interface FormDataState {
   image: string;
   title: string;
@@ -164,6 +168,18 @@ export interface ICreateComment {
 }
 
 export interface ICreateCommentResponse {
+  content: string;
+  postId: string;
+  userId: string;
+  likes: [] | number[];
+  numberOfLikes: number;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface IGetComment {
   content: string;
   postId: string;
   userId: string;

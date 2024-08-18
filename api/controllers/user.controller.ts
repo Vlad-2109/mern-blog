@@ -137,3 +137,22 @@ export const getUsers = async (
     next(error);
   }
 }
+
+export const getUser = async (
+  req: Request | any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+    if (user) {
+      const { password, ...rest } = user.toObject();
+      res.status(200).json(rest);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
