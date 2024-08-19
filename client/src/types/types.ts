@@ -62,7 +62,8 @@ export interface CommentSectionProps {
 }
 
 export interface CommentProps {
-  comment: IGetComment
+  comment: IGetComment;
+  onLike: (commentId: string) => Promise<void> | void;
 }
 
 export interface FormDataState {
@@ -171,7 +172,7 @@ export interface ICreateCommentResponse {
   content: string;
   postId: string;
   userId: string;
-  likes: [] | number[];
+  likes: string[];
   numberOfLikes: number;
   _id: string;
   createdAt: Date;
@@ -183,7 +184,7 @@ export interface IGetComment {
   content: string;
   postId: string;
   userId: string;
-  likes: [] | number[];
+  likes: string[];
   numberOfLikes: number;
   _id: string;
   createdAt: Date;

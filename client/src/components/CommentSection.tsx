@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CommentSectionProps, IGetComment } from '../types/types';
 import { useAppSelector } from '../redux/hook';
 import { Alert, Button, Textarea } from 'flowbite-react';
@@ -11,6 +11,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
   const [comment, setComment] = useState<string>('');
   const [commentError, setCommentError] = useState<string | null>(null);
   const [comments, setComments] = useState<IGetComment[] | []>([]);
+  const navigate = useNavigate();
+
   console.log(comments);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,6 +35,25 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
       setCommentError(error.message);
     }
   };
+
+  const handleLike = async (commentId: string) => {
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const data = await CommentService.likeComment(commentId);
+      setComments(comments.map((comment) => 
+        comment._id === commentId ? {
+          ...comment,
+          likes: data.likes,
+          numberOfLikes: data.likes.length,
+        } : comment
+      ))
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     const getComments = async () => {
@@ -111,7 +132,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
             </div>
           </div>
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+            <Comment key={comment._id} comment={comment} onLike={handleLike} />
           ))}
         </>
       )}

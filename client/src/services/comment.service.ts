@@ -15,4 +15,9 @@ export const CommentService = {
     const { data } = await instance.get<IGetComment[]>(`api/comment/get-post-comments/${postId}`);
     return data;
   },
+
+   async likeComment(commentId: string | undefined): Promise<IGetComment> {
+    const { data } = await instance.put<IGetComment>(`api/comment/likeComment/${commentId}`);
+    return data;
+  },
 };
