@@ -43,17 +43,21 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
         return;
       }
       const data = await CommentService.likeComment(commentId);
-      setComments(comments.map((comment) => 
-        comment._id === commentId ? {
-          ...comment,
-          likes: data.likes,
-          numberOfLikes: data.likes.length,
-        } : comment
-      ))
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                likes: data.likes,
+                numberOfLikes: data.likes.length,
+              }
+            : comment
+        )
+      );
     } catch (error: any) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     const getComments = async () => {
@@ -68,6 +72,14 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
     };
     getComments();
   }, [postId]);
+
+  const handleEdit = async (comment: IGetComment, editedContent: string) => {
+    setComments(
+      comments.map((c) =>
+        c._id === comment._id ? { ...c, content: editedContent } : c
+      )
+    );
+  };
 
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
@@ -132,7 +144,12 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
             </div>
           </div>
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} onLike={handleLike} />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              onLike={handleLike}
+              onEdit={handleEdit}
+            />
           ))}
         </>
       )}

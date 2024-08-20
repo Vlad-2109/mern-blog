@@ -64,6 +64,7 @@ export interface CommentSectionProps {
 export interface CommentProps {
   comment: IGetComment;
   onLike: (commentId: string) => Promise<void> | void;
+  onEdit: (comment: IGetComment, editedContent: string) => Promise<void> | void;
 }
 
 export interface FormDataState {

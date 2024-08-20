@@ -16,8 +16,18 @@ export const CommentService = {
     return data;
   },
 
-   async likeComment(commentId: string | undefined): Promise<IGetComment> {
+  async likeComment(commentId: string | undefined): Promise<IGetComment> {
     const { data } = await instance.put<IGetComment>(`api/comment/likeComment/${commentId}`);
+    return data;
+  },
+
+  async editComment(commentId: string | undefined, editedContent: string | undefined): Promise<IGetComment> {
+    const newContent = { content: editedContent };
+    const { data } = await instance.put<IGetComment>(`api/comment/editComment/${commentId}`, newContent, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return data;
   },
 };
