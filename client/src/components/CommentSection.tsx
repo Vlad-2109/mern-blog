@@ -1,19 +1,36 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { CommentSectionProps, IGetComment } from '../types/types';
 import { useAppSelector } from '../redux/hook';
-import { Alert, Button, Textarea } from 'flowbite-react';
+import { Alert, Button, Modal, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { CommentService } from '../services/comment.service';
 import { Comment } from './Comment';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
   const { currentUser } = useAppSelector((state) => state.user);
   const [comment, setComment] = useState<string>('');
   const [commentError, setCommentError] = useState<string | null>(null);
   const [comments, setComments] = useState<IGetComment[] | []>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [commentToDelete, setCommentToDelete] = useState<string | null>(null);
   const navigate = useNavigate();
 
   console.log(comments);
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const data = await CommentService.getPostComments(postId);
+        if (data) {
+          setComments(data);
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+    getComments();
+  }, [postId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,26 +76,28 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
     }
   };
 
-  useEffect(() => {
-    const getComments = async () => {
-      try {
-        const data = await CommentService.getPostComments(postId);
-        if (data) {
-          setComments(data);
-        }
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    };
-    getComments();
-  }, [postId]);
-
   const handleEdit = async (comment: IGetComment, editedContent: string) => {
     setComments(
       comments.map((c) =>
         c._id === comment._id ? { ...c, content: editedContent } : c
       )
     );
+  };
+
+  const handleDelete = async (commentId: string) => {
+    setShowModal(false);
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const data = await CommentService.deleteComment(commentId);
+      if (data) {
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -149,10 +168,38 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
               comment={comment}
               onLike={handleLike}
               onEdit={handleEdit}
+              onDelete={(commentId) => {
+                setShowModal(true);
+                setCommentToDelete(commentId);
+              }}
             />
           ))}
         </>
       )}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this comment?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={() => commentToDelete && handleDelete(commentToDelete)}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

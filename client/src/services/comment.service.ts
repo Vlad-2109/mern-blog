@@ -30,4 +30,9 @@ export const CommentService = {
     });
     return data;
   },
+
+  async deleteComment(commentId: string | undefined): Promise<string> {
+    const { data } = await instance.delete<string>(`api/comment/deleteComment/${commentId}`);
+    return data;
+  },
 };

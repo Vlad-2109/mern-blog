@@ -12,6 +12,7 @@ export const Comment: React.FC<CommentProps> = ({
   comment,
   onLike,
   onEdit,
+  onDelete
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -117,13 +118,22 @@ export const Comment: React.FC<CommentProps> = ({
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    className="text-gray-400 hover:text-blue-500"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-gray-400 hover:text-blue-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(comment._id)}
+                      className="text-gray-400 hover:text-red-500"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
