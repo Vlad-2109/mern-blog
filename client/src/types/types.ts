@@ -68,6 +68,10 @@ export interface CommentProps {
   onDelete: (commentId: string) => Promise<void> | void;
 }
 
+export interface PostCardProps {
+  post: Post;
+}
+
 export interface FormDataState {
   image: string;
   title: string;

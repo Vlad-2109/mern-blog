@@ -35,6 +35,11 @@ export const PostService = {
     return data;
   },
 
+  async getPostWithLimit(): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?limit=3`);
+    return data;
+  },
+
   async deletePostById(postIdToDelete: string, currentUserId: string | undefined): Promise<string> {
     const { data } = await instance.delete<string>(`api/post/delete-post/${postIdToDelete}/${currentUserId}`);
     return data;
