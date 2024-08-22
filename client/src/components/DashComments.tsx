@@ -1,25 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../redux/hook';
-import { User } from '../redux/types';
-import { UserService } from '../services/user.service';
 import { Button, Modal, Table, TableCell } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { IGetComment } from '../types/types';
+import { CommentService } from '../services/comment.service';
 
-export const DashUsers: React.FC = () => {
+export const DashComments: React.FC = () => {
   const { currentUser } = useAppSelector((state) => state.user);
-  const [users, setUsers] = useState<User[] | []>([]);
+  const [comments, setComments] = useState<IGetComment[] | []>([]);
   const [showMore, setShowMore] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [userIdToDelete, setUserIdToDelete] = useState<string>('');
+  const [commentIdToDelete, setCommentIdToDelete] = useState<string>('');
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchComments = async () => {
       try {
-        const data = await UserService.getUsers();
+        const data = await CommentService.getComments();
         if (data) {
-          setUsers(data.users);
-          if (data.users.length < 5) {
+          setComments(data.comments);
+          if (data.comments.length < 5) {
             setShowMore(false);
           }
         }
@@ -29,17 +28,17 @@ export const DashUsers: React.FC = () => {
     };
 
     if (currentUser?.isAdmin) {
-      fetchUsers();
+      fetchComments();
     }
   }, [currentUser?._id]);
 
   const handleShowMore = async () => {
-    const startIndex = users.length;
+    const startIndex = comments.length;
     try {
-      const data = await UserService.getUsersWithStartIndex(startIndex);
+      const data = await CommentService.getCommentsWithStartIndex(startIndex);
       if (data) {
-        setUsers((prev) => [...prev, ...data.users]);
-        if (data.users.length < 9) {
+        setComments((prev) => [...prev, ...data.comments]);
+        if (data.comments.length < 9) {
           setShowMore(false);
         }
       }
@@ -48,12 +47,12 @@ export const DashUsers: React.FC = () => {
     }
   };
 
-  const handleDeleteUser = async () => {
+  const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const data = await UserService.deleteUserById(userIdToDelete);
+      const data = await CommentService.deleteCommentById(commentIdToDelete);
       if (data) {
-        setUsers((prev) => prev.filter((post) => post._id !== userIdToDelete));
+        setComments((prev) => prev.filter((comment) => comment._id !== commentIdToDelete));
       }
     } catch (error: any) {
       console.log(error.message);
@@ -65,44 +64,36 @@ export const DashUsers: React.FC = () => {
       className="table-auto overflow-x-scroll w-full
     md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
     >
-      {currentUser?.isAdmin && users.length > 0 ? (
+      {currentUser?.isAdmin && comments.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Date created</Table.HeadCell>
-              <Table.HeadCell>User image</Table.HeadCell>
-              <Table.HeadCell>Username</Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Admin</Table.HeadCell>
+              <Table.HeadCell>Date updated</Table.HeadCell>
+              <Table.HeadCell>Comment content</Table.HeadCell>
+              <Table.HeadCell>Number of likes</Table.HeadCell>
+              <Table.HeadCell>PostId</Table.HeadCell>
+              <Table.HeadCell>UserId</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
-            {users.map((user) => (
-              <Table.Body key={user._id} className="divide-y">
+            {comments.map((comment) => (
+              <Table.Body key={comment._id} className="divide-y">
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <TableCell>
-                    {new Date(user.createdAt).toLocaleDateString()}
+                    {new Date(comment.updatedAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <img
-                      src={user.profilePicture}
-                      alt={user.username}
-                      className="w-10 h-10 object-cover bg-gray-500 rounded-full"
-                    />
+                    {comment.content}
                   </TableCell>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{comment.numberOfLikes}</TableCell>
+                  <TableCell>{comment.postId}</TableCell>
                   <TableCell>
-                    {user.isAdmin ? (
-                      <FaCheck className="text-green-500" />
-                    ) : (
-                      <FaTimes className="text-red-500" />
-                    )}
+                    {comment.userId}
                   </TableCell>
                   <TableCell>
                     <span
                       onClick={() => {
                         setShowModal(true);
-                        setUserIdToDelete(user._id);
+                        setCommentIdToDelete(comment._id);
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
@@ -123,7 +114,7 @@ export const DashUsers: React.FC = () => {
           )}
         </>
       ) : (
-        <p>You have no users yet!</p>
+        <p>You have no comments yet!</p>
       )}
       <Modal
         show={showModal}
@@ -136,10 +127,10 @@ export const DashUsers: React.FC = () => {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this user?
+              Are you sure you want to delete this comment?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeleteUser}>
+              <Button color="failure" onClick={handleDeleteComment}>
                 Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>

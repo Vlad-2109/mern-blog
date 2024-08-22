@@ -168,6 +168,12 @@ export interface IGetUsers {
   lastMonthUsers: number;
 }
 
+export interface IGetComments {
+  comments: IGetComment[];
+  totalComments: number;
+  lastMonthComments: number;
+}
+
 export interface ICreateComment {
   content: string;
   postId: string | undefined;
