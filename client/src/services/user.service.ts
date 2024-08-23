@@ -40,6 +40,11 @@ export const UserService = {
     return data;
   },
 
+  async getUsersWithLimit(): Promise<IGetUsers> {
+    const { data } = await instance.get<IGetUsers>(`api/user/get-users?limit=5`);
+    return data;
+  },
+
   async getUsersWithStartIndex(startIndex: number): Promise<IGetUsers> {
     const { data } = await instance.get<IGetUsers>(
       `api/user/get-users?startIndex=${startIndex}`

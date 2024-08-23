@@ -5,6 +5,7 @@ import { DashProfile } from '../components/DashProfile';
 import { DashPosts } from '../components/DashPosts';
 import { DashUsers } from '../components/DashUsers';
 import { DashComments } from '../components/DashComments';
+import { DashboardComponent } from '../components/DashboardComponent';
 
 export const Dashboard: React.FC = () => {
   const location = useLocation();
@@ -28,6 +29,8 @@ export const Dashboard: React.FC = () => {
       {tab === 'users' && <DashUsers />}
       {/*comments*/}
       {tab === 'comments' && <DashComments />}
+      {/*dashboard component*/}
+      {tab === 'dash' && <DashboardComponent />}
     </div>
   );
 };

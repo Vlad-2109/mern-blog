@@ -60,6 +60,11 @@ export const CommentService = {
     return data;
   },
 
+  async getCommentsWithLimit(): Promise<IGetComments> {
+    const { data } = await instance.get<IGetComments>(`api/comment/get-comments?limit=5`);
+    return data;
+  },
+
   async getCommentsWithStartIndex(startIndex: number): Promise<IGetComments> {
     const { data } = await instance.get<IGetComments>(
       `api/comment/get-comments?startIndex=${startIndex}`
