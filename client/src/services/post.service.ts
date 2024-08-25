@@ -16,41 +16,70 @@ export const PostService = {
   },
 
   async getPosts(currentUserId: string | undefined): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?userId=${currentUserId}`);
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?userId=${currentUserId}`
+    );
     return data;
   },
 
-  async getPostsWithStartIndex(currentUserId: string | undefined, startIndex: number): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?userId=${currentUserId}&startIndex=${startIndex}`);
+  async getAllPosts(): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(`api/post/get-posts`);
     return data;
   },
 
-   async getPostBySlug(postSlug: string | undefined): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?slug=${postSlug}`);
+  async getPostsWithStartIndex(
+    currentUserId: string | undefined,
+    startIndex: number
+  ): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?userId=${currentUserId}&startIndex=${startIndex}`
+    );
+    return data;
+  },
+
+  async getPostBySlug(postSlug: string | undefined): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?slug=${postSlug}`
+    );
     return data;
   },
 
   async getPostById(postId: string | undefined): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?postId=${postId}`);
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?postId=${postId}`
+    );
     return data;
   },
 
   async getPostWithLimit(): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?limit=3`);
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?limit=3`
+    );
     return data;
   },
 
   async getPostsWithLimitFive(): Promise<IGetPosts> {
-    const { data } = await instance.get<IGetPosts>(`api/post/get-posts?limit=3`);
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?limit=3`
+    );
     return data;
   },
 
-  async deletePostById(postIdToDelete: string, currentUserId: string | undefined): Promise<string> {
-    const { data } = await instance.delete<string>(`api/post/delete-post/${postIdToDelete}/${currentUserId}`);
+  async deletePostById(
+    postIdToDelete: string,
+    currentUserId: string | undefined
+  ): Promise<string> {
+    const { data } = await instance.delete<string>(
+      `api/post/delete-post/${postIdToDelete}/${currentUserId}`
+    );
     return data;
   },
 
-  async updatePostById(postId: string | undefined, currentUserId: string | undefined, postData: IUpdatePost ): Promise<IUpdatePostResponse | null> {
+  async updatePostById(
+    postId: string | undefined,
+    currentUserId: string | undefined,
+    postData: IUpdatePost
+  ): Promise<IUpdatePostResponse | null> {
     const { data } = await instance.put<IUpdatePostResponse | null>(
       `api/post/update-post/${postId}/${currentUserId}`,
       postData,
@@ -62,5 +91,4 @@ export const PostService = {
     );
     return data;
   },
-
 };
