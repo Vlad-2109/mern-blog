@@ -58,7 +58,7 @@ export interface PrivateRouteProps {
 }
 
 export interface CommentSectionProps {
-  postId?: string
+  postId?: string;
 }
 
 export interface CommentProps {
@@ -202,4 +202,10 @@ export interface IGetComment {
   createdAt: Date;
   updatedAt: Date;
   __v: number;
+}
+
+export interface ISideBarData {
+  searchTerm: string;
+  order: string;
+  category: string;
 }

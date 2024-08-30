@@ -22,6 +22,13 @@ export const PostService = {
     return data;
   },
 
+  async getPostsWithSearchQuery(searchQuery: string | undefined): Promise<IGetPosts> {
+    const { data } = await instance.get<IGetPosts>(
+      `api/post/get-posts?${searchQuery}`
+    );
+    return data;
+  },
+
   async getAllPosts(): Promise<IGetPosts> {
     const { data } = await instance.get<IGetPosts>(`api/post/get-posts`);
     return data;
